@@ -15,7 +15,7 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        // dd($this->'created_at);
+
         // return parent::toArray($request);
 
         $created_at = new Carbon($this->created_at);
