@@ -2,31 +2,49 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\User\Auth\RegisterAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\Auth\LoginRequest;
+use App\Http\Requests\User\Auth\RegisterRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-    // public function register(RegisterRequest $request): \Illuminate\Http\Response
-    // {
-    //     $user = User::create([
-    //         'name' => $fields['name'],
-    //         'email' => $fields['email'],
-    //         'password' => bcrypt($fields['password']),
-    //     ]);
+    public function register(RegisterRequest $request, RegisterAction $register_action)
+    : JsonResponse {
 
-    //     $token = $user->createToken('myapptoken')->plainTextToken;
+        DB::beginTransaction();
 
-    //     $response = [
-    //         'user' => $user,
-    //         'token' => $token,
-    //     ];
+        try {
+            $user = $register_action->execute($request);
 
-    //     return response($response, 201);
-    // }
+            $token = $user->createToken('myapptoken')->plainTextToken;
+
+            DB::commit();
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Registered!',
+                'validation' => null,
+                'data' => ['user' => $user,
+                    'token' => $token],
+            ]);
+
+        } catch (\Exception$e) {
+            DB::rollback();
+
+            return response()->json([
+                'code' => 500,
+                'message' => 'Error!',
+                'validation' => null,
+                'data' => [],
+            ]);
+        }
+    }
 
     public function login(LoginRequest $request)
     {

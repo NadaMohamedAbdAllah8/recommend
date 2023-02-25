@@ -54,6 +54,8 @@ Route::post('/tokens/create', function (Request $request) {
 // users routes
 
 Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\User'], function () {
+    Route::post('register', 'AuthController@register')->name('register');
+
     Route::post('login', 'AuthController@login');
 
     // protected routes
