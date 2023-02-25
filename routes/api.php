@@ -66,6 +66,8 @@ Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\User'], f
 
         Route::post('logout', 'AuthController@logout')->name('logout');
 
+        Route::apiResource('products', 'ProductController')->except(['store', 'update', 'destroy']);
+
         // Route::prefix('Products')->group(function () {
         //     Route:: as ('Product.')->group(function () {
         //         Route::get('/', 'ProductController@index')->name('index');
