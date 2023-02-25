@@ -23,12 +23,14 @@ class ProductController extends Controller
      */
     public function index()
     {
+
         return response()->json([
             'code' => 200,
             'message' => 'Products',
             'validation' => null,
             'data' => [
-                'products' => new ProductResource(Product::all()),
+                'products' => ProductResource::collection(Product::select('id', 'name', 'price', 'created_at',
+                    'updated_at')->get()),
             ],
         ]);
 
