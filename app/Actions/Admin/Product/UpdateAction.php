@@ -12,9 +12,10 @@ class UpdateAction
         $product = Product::findOrFail($id);
 
         $product->update([
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
+            'name' => $request->name,
+            'price' => $request->price,
         ]);
 
+        return $product;
     }
 }

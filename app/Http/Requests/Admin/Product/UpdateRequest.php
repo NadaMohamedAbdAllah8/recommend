@@ -26,7 +26,10 @@ class UpdateRequest extends FormRequest
     {
 
         return [
-            // 'name' => 'required|string|min:2|max:191',
+            'name' => ['required', 'string', 'max:191',
+                Rule::unique('products', 'name')
+                    ->ignore($this->id)],
+            'price' => 'required|numeric',
         ];
     }
 }

@@ -8,9 +8,9 @@ class StoreAction
 {
     public function execute(Request $request)
     {
-        Product::create([
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
+        return Product::create([
+            'name' => $request->name,
+            'price' => $request->price,
         ]);
 
     }

@@ -28,11 +28,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'],
 
             Route::post('logout', 'AuthController@logout')->name('logout');
 
-            Route::prefix('Products')->group(function () {
+            Route::prefix('products')->group(function () {
                 Route:: as ('Product.')->group(function () {
                     Route::get('/', 'ProductController@index')->name('index');
-                    Route::get('show/{id}', 'ProductController@show')->name('show');
-
+                    Route::post('store', 'ProductController@store')->name('store');
+                    Route::post('store', 'ProductController@store')->name('store');
+                    Route::post('update/{id}', 'ProductController@update')->name('update');
+                    Route::post('destroy/{id}', 'ProductController@destroy')->name('destroy');
                 });
             });
 
