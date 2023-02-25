@@ -30,35 +30,54 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        try {
+            if (!Auth::attempt($request->only('email', 'password'))) {
+                return response()->json([
+                    'message' => 'Invalid login details',
+                ], 401);
+            }
+            $user = User::where('email', $request['email'])->firstOrFail();
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             return response()->json([
-                'message' => 'Invalid login details',
-            ], 401);
+                'code' => 200,
+                'message' => 'Logged In!',
+                'validation' => null,
+                'data' => [
+                    'access_token' => $token,
+                    'token_type' => 'Bearer'],
+            ]);
+        } catch (\Exception$e) {
+
+            return response()->json([
+                'code' => 500,
+                'message' => 'Error!',
+                'validation' => null,
+                'data' => [],
+            ]);
         }
-        $user = User::where('email', $request['email'])->firstOrFail();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'code' => 200,
-            'message' => 'Logged In!',
-            'validation' => null,
-            'data' => [
-                'access_token' => $token,
-                'token_type' => 'Bearer'],
-        ]);
     }
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        try {auth()->user()->tokens()->delete();
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Logged out!',
-            'validation' => null,
-            'data' => [],
-        ]);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Logged out!',
+                'validation' => null,
+                'data' => [],
+            ]);
+        } catch (\Exception$e) {
+
+            return response()->json([
+                'code' => 500,
+                'message' => 'Error!',
+                'validation' => null,
+                'data' => [],
+            ]);
+        }
 
     }
 }
