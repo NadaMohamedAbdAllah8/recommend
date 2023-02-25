@@ -1,6 +1,8 @@
 <?php
 
-namespace Http\Requests\User;
+namespace App\Http\Requests\User\Auth;
+
+use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {

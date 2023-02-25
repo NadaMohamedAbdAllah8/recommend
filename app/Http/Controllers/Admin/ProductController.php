@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Vendor;
+namespace App\Http\Controllers\Admin;
 
 use App\Actions\Vendor\ShopProduct\DataAction;
 use App\Actions\Vendor\ShopProduct\DestroyAction;
@@ -16,14 +16,14 @@ use App\Http\Requests\Vendor\ShopProduct\UpdateRequest;
 use App\Imports\Vendor\UpdatePricesExcelImport;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\QuantityType;
 use App\Models\Product;
+use App\Models\QuantityType;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ShopProductController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -88,7 +88,7 @@ class ShopProductController extends Controller
             session()->flash('_added', 'Shop Product data has been created successfully');
 
             return redirect()->route('vendor.shop-products.index');
-        } catch (\Exception $exception) {
+        } catch (\Exception$exception) {
             DB::rollback();
 
             session()->flash('error', 'Specification does not exist');
@@ -152,7 +152,7 @@ class ShopProductController extends Controller
             session()->flash('_added', 'Product data has been updated successfully');
 
             return back();
-        } catch (\Exception $exception) {
+        } catch (\Exception$exception) {
             DB::rollback();
 
             session()->flash('error', 'Specification does not exist');
@@ -184,7 +184,7 @@ class ShopProductController extends Controller
 
             return response()->json(['id' => $id], 200);
 
-        } catch (\Exception $exception) {
+        } catch (\Exception$exception) {
             DB::rollback();
 
             return response();
@@ -223,7 +223,7 @@ class ShopProductController extends Controller
             session()->flash('_added', 'Products data has been deleted successfully');
 
             return back();
-        } catch (\Exception $exception) {
+        } catch (\Exception$exception) {
             DB::rollback();
 
             return response();
@@ -258,7 +258,7 @@ class ShopProductController extends Controller
             session()->flash('_added', 'Products data has been deleted successfully');
 
             return back();
-        } catch (\Exception $exception) {
+        } catch (\Exception$exception) {
             DB::rollback();
 
             return response();
@@ -314,7 +314,7 @@ class ShopProductController extends Controller
                 'featured' => $data['featured'],
                 'success' => $data['success']]);
 
-        } catch (\Exception $exception) {
+        } catch (\Exception$exception) {
             DB::rollback();
 
             session()->flash('error', 'Specification does not exist');
@@ -356,7 +356,7 @@ class ShopProductController extends Controller
             return redirect()->route('vendor.shop-products.index')->with('_added',
                 'Products have been successfully updated.');
 
-        } catch (\Exception $ex) {
+        } catch (\Exception$ex) {
             DB::rollBack();
 
             return redirect()->back()->with('error',

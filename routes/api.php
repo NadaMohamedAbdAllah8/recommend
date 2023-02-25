@@ -14,6 +14,32 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+// Route::namespace ('App\Http\Controllers\Admin')->prefix('api')
+//     ->middleware(['api:admin'])->group(function () {
+
+Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'],
+    function () {
+
+        Route::post('login', 'AuthController@login');
+
+        // protected routes
+        Route::group(['middleware' => ['auth:api', 'admin']], function () {
+            // Route::get('me', 'AuthController@me');
+
+            Route::post('logout', 'AuthController@logout')->name('logout');
+
+            Route::prefix('Products')->group(function () {
+                Route:: as ('Product.')->group(function () {
+                    Route::get('/', 'ProductController@index')->name('index');
+                    Route::get('show/{id}', 'ProductController@show')->name('show');
+
+                });
+            });
+
+        });
+
+    });
+
 // issue new tokens
 Route::post('/tokens/create', function (Request $request) {
     $token = $request->user()->createToken($request->token_name);
@@ -35,6 +61,14 @@ Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\User'], f
         // Route::get('me', 'AuthController@me');
 
         Route::post('logout', 'AuthController@logout')->name('logout');
+
+        // Route::prefix('Products')->group(function () {
+        //     Route:: as ('Product.')->group(function () {
+        //         Route::get('/', 'ProductController@index')->name('index');
+        //         Route::get('show/{id}', 'ProductController@show')->name('show');
+
+        //     });
+        // });
 
     });
 });

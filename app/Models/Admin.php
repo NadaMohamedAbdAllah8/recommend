@@ -6,14 +6,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
-    protected $guard_name = 'admin';
+    // protected $guard_name = 'admin_api';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'id', 'name', 'email',
+        'id', 'name', 'email', 'api_token',
     ];
 
     /**
