@@ -6,7 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
-
     public function rules()
     {
         return [
@@ -15,5 +14,4 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|confirmed',
         ];
     }
-
 }

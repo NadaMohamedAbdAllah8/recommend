@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Admin\Product;
 
 use App\Models\Product;
@@ -10,6 +11,5 @@ class DestroyAction
         $product = Product::findOrFail($id);
 
         $product->delete();
-
     }
 }

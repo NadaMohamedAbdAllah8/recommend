@@ -15,7 +15,6 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-
         // return parent::toArray($request);
 
         $created_at = new Carbon($this->created_at);
@@ -29,6 +28,5 @@ class ProductResource extends JsonResource
             'created_at' => $created_at->toDayDateTimeString(),
             'updated_at' => $updated_at->toDayDateTimeString(),
         ];
-
     }
 }

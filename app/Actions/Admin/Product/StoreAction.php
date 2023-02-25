@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Admin\Product;
 
 use App\Models\Product;
@@ -12,6 +13,5 @@ class StoreAction
             'name' => $request->name,
             'price' => $request->price,
         ]);
-
     }
 }

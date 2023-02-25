@@ -11,7 +11,6 @@ use App\Http\Requests\Admin\Product\UpdateRequest;
 use App\Http\Resources\Admin\ProductResource;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -23,7 +22,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-
         return response()->json([
             'code' => 200,
             'message' => 'Products',
@@ -33,7 +31,6 @@ class ProductController extends Controller
                     'updated_at')->get()),
             ],
         ]);
-
     }
 
     /**
@@ -90,7 +87,6 @@ class ProductController extends Controller
                     'product' => new ProductResource($product),
                 ],
             ]);
-
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'code' => 101,
@@ -98,7 +94,6 @@ class ProductController extends Controller
                 'validation' => null,
                 'data' => [],
             ]);
-
         }
     }
 
@@ -169,6 +164,5 @@ class ProductController extends Controller
                 'data' => [],
             ]);
         }
-
     }
 }

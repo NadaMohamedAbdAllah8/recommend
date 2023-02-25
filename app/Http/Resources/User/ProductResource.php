@@ -26,6 +26,6 @@ class ProductResource extends JsonResource
         //     'created_at' => $created_at->toDayDateTimeString(),
         //     'updated_at' => $updated_at->toDayDateTimeString(),
         // ];
-         return parent::toArray($request);
+        return parent::toArray($request);
     }
 }

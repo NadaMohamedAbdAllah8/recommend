@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\Admin\Product;
 
 use App\Models\Product;

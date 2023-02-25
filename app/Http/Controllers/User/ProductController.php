@@ -24,7 +24,6 @@ class ProductController extends Controller
                 'products' => new ProductResource(Product::select('id', 'name', 'price')->get()),
             ],
         ]);
-
     }
 
     /**
@@ -46,7 +45,6 @@ class ProductController extends Controller
                     'product' => new ProductResource($product),
                 ],
             ]);
-
         } catch (ModelNotFoundException $e) {
             return response()->json([
                 'code' => 101,
@@ -54,8 +52,6 @@ class ProductController extends Controller
                 'validation' => null,
                 'data' => [],
             ]);
-
         }
     }
-
 }

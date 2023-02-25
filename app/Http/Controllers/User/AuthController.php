@@ -8,15 +8,13 @@ use App\Http\Requests\User\Auth\LoginRequest;
 use App\Http\Requests\User\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request, RegisterAction $register_action)
-    : JsonResponse {
-
+    public function register(RegisterRequest $request, RegisterAction $register_action): JsonResponse
+    {
         DB::beginTransaction();
 
         try {
@@ -33,7 +31,6 @@ class AuthController extends Controller
                 'data' => ['user' => $user,
                     'token' => $token],
             ]);
-
         } catch (\Exception$e) {
             DB::rollback();
 
@@ -49,7 +46,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            if (!Auth::attempt($request->only('email', 'password'))) {
+            if (! Auth::attempt($request->only('email', 'password'))) {
                 return response()->json([
                     'message' => 'Invalid login details',
                 ], 401);
@@ -67,7 +64,6 @@ class AuthController extends Controller
                     'token_type' => 'Bearer'],
             ]);
         } catch (\Exception$e) {
-
             return response()->json([
                 'code' => 500,
                 'message' => 'Error!',
@@ -79,7 +75,8 @@ class AuthController extends Controller
 
     public function logout()
     {
-        try {auth()->user()->tokens()->delete();
+        try {
+            auth()->user()->tokens()->delete();
 
             return response()->json([
                 'code' => 200,
@@ -88,7 +85,6 @@ class AuthController extends Controller
                 'data' => [],
             ]);
         } catch (\Exception$e) {
-
             return response()->json([
                 'code' => 500,
                 'message' => 'Error!',
@@ -96,6 +92,5 @@ class AuthController extends Controller
                 'data' => [],
             ]);
         }
-
     }
 }

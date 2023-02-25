@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Admin\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -24,7 +23,6 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'name' => 'required|string|min:2|max:191|unique:products,name',
             'price' => 'required|numeric',

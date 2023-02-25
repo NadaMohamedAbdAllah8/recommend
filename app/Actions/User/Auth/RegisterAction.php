@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Actions\User\Auth;
 
 use App\Models\User;
@@ -13,6 +14,5 @@ class RegisterAction
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-
     }
 }
