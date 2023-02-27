@@ -20,6 +20,5 @@ class CartProductResource extends JsonResource
             'quantity' => $this->quantity,
             'price' => $this->product->price,
         ];
-
     }
 }

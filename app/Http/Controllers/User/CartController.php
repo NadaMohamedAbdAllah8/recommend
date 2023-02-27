@@ -15,7 +15,6 @@ class CartController extends Controller
     public function add(AddToCartRequest $request,
         AddCartProductsAction $add_cart_items_action
     ) {
-
         DB::beginTransaction();
 
         try {
@@ -33,13 +32,13 @@ class CartController extends Controller
             DB::commit();
 
             $cart_products = CartProduct::where('cart_id', $cart->id)->get();
+
             return response()->json([
                 'code' => 200,
                 'message' => 'Added Successfully!',
                 'validation' => null,
                 'data' => ['cart' => CartProductResource::collection($cart_products)],
             ]);
-
         } catch (\Exception$exception) {
             echo $exception->getMessage();
             dd($exception->getTraceAsString());
@@ -52,16 +51,14 @@ class CartController extends Controller
                 'validation' => null,
                 'data' => [],
             ]);
-
         }
-
     }
 
-    function empty() {
+    public function empty()
+    {
         DB::beginTransaction();
 
         try {
-
             $cart = Cart::where('user_id', auth()->user()->id)->first();
 
             CartProduct::where('cart_id', $cart->id)->delete();
@@ -75,7 +72,6 @@ class CartController extends Controller
                 'validation' => null,
                 'data' => ['cart' => null],
             ]);
-
         } catch (\Exception$exception) {
             dd($exception->getMessage());
             DB::rollback();
@@ -86,9 +82,7 @@ class CartController extends Controller
                 'validation' => null,
                 'data' => [],
             ]);
-
         }
-
     }
 
     public function show()
@@ -103,7 +97,6 @@ class CartController extends Controller
                     'validation' => null,
                     'data' => ['cart' => null],
                 ]);
-
             }
 
             $cart_products = CartProduct::where('cart_id', $cart->id)->get();
@@ -114,7 +107,6 @@ class CartController extends Controller
                 'validation' => null,
                 'data' => ['cart' => CartProductResource::collection($cart_products)],
             ]);
-
         } catch (\Exception$exception) {
             return response()->json([
                 'code' => 500,
@@ -122,8 +114,6 @@ class CartController extends Controller
                 'validation' => null,
                 'data' => [],
             ]);
-
         }
     }
-
 }

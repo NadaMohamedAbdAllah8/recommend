@@ -3,7 +3,6 @@
 namespace App\Http\Requests\User\Cart;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class AddToCartRequest extends FormRequest
 {
@@ -29,6 +28,5 @@ class AddToCartRequest extends FormRequest
             'quantity.*' => 'required|numeric|min:1',
 
         ];
-
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests\User\Cart;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class RemoveFromCartRequest extends FormRequest
 {
@@ -28,6 +27,5 @@ class RemoveFromCartRequest extends FormRequest
             'id' => 'required|exists:products,id',
             'quantity' => 'required|numeric',
         ];
-
     }
 }
