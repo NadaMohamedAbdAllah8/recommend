@@ -68,13 +68,12 @@ Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\User'], f
 
         Route::apiResource('products', 'ProductController')->except(['store', 'update', 'destroy']);
 
-        // Route::prefix('Products')->group(function () {
-        //     Route:: as ('Product.')->group(function () {
-        //         Route::get('/', 'ProductController@index')->name('index');
-        //         Route::get('show/{id}', 'ProductController@show')->name('show');
-
-        //     });
-        // });
+        Route::prefix('cart')->group(function () {
+            Route::post('add', 'CartController@add');
+            // Route::post('remove', 'CartController@removeFromCart');
+            Route::get('show', 'CartController@show');
+            Route::post('empty', 'CartController@empty');
+        });
 
     });
 });

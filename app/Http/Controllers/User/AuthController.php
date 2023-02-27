@@ -31,7 +31,7 @@ class AuthController extends Controller
                 'data' => ['user' => $user,
                     'token' => $token],
             ]);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             DB::rollback();
 
             return response()->json([
@@ -46,7 +46,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            if (! Auth::attempt($request->only('email', 'password'))) {
+            if (!Auth::attempt($request->only('email', 'password'))) {
                 return response()->json([
                     'message' => 'Invalid login details',
                 ], 401);
@@ -63,7 +63,7 @@ class AuthController extends Controller
                     'access_token' => $token,
                     'token_type' => 'Bearer'],
             ]);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'code' => 500,
                 'message' => 'Error!',
@@ -84,7 +84,7 @@ class AuthController extends Controller
                 'validation' => null,
                 'data' => [],
             ]);
-        } catch (\Exception$e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'code' => 500,
                 'message' => 'Error!',
