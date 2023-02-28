@@ -40,9 +40,6 @@ class CartController extends Controller
                 'data' => ['cart' => CartProductResource::collection($cart_products)],
             ]);
         } catch (\Exception$exception) {
-            echo $exception->getMessage();
-            dd($exception->getTraceAsString());
-
             DB::rollback();
 
             return response()->json([
@@ -54,8 +51,7 @@ class CartController extends Controller
         }
     }
 
-    public function empty()
-    {
+    function empty() {
         DB::beginTransaction();
 
         try {
