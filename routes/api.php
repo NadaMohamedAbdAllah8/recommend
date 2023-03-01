@@ -75,5 +75,7 @@ Route::group(['prefix' => 'user', 'namespace' => 'App\Http\Controllers\User'], f
             Route::post('empty', 'CartController@empty');
         });
 
+        Route::post('checkout', 'CheckoutController')->name('checkout');
+
     });
 });
