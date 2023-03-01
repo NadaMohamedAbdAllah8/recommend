@@ -26,7 +26,6 @@ class CartController extends Controller
             );
 
             // add cart items
-
             $add_cart_items_action->execute($request, $cart->id);
 
             DB::commit();
@@ -51,7 +50,8 @@ class CartController extends Controller
         }
     }
 
-    function empty() {
+    public function empty()
+    {
         DB::beginTransaction();
 
         try {
@@ -69,7 +69,6 @@ class CartController extends Controller
                 'data' => ['cart' => null],
             ]);
         } catch (\Exception$exception) {
-            dd($exception->getMessage());
             DB::rollback();
 
             return response()->json([
