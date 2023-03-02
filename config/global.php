@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    'count_to_recommend' => 3,
+];

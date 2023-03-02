@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Services\CheckoutService;
+use App\Services\RecommendService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    public function __invoke(CheckoutService $checkout_service)
+    public function __invoke(CheckoutService $checkout_service, RecommendService $recommend_service)
     {
         DB::beginTransaction();
 
@@ -29,6 +30,10 @@ class CheckoutController extends Controller
         try {
             $order = $checkout_service->checkout($cart);
 
+            $product_ids = $recommend_service->recommend($order, config('global.count_to_recommend', 3));
+
+            dd($product_ids);
+
             DB::commit();
 
             return response()->json([
@@ -38,6 +43,9 @@ class CheckoutController extends Controller
                 'data' => ['order' => new OrderResource($order)],
             ]);
         } catch (\Exception$exception) {
+            echo $exception->getMessage();
+            dd($exception->getTraceAsString());
+
             DB::rollback();
 
             return response()->json([
