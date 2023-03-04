@@ -12,29 +12,26 @@ class RecommendService
     {
         $recommended_products = [];
 
+        $graph = [];
+
         $product_ids = OrderProduct::where('order_id', $order->id)
             ->select('product_id')->pluck('product_id')->toArray();
-        // dd($product_ids);
-        foreach ($product_ids as $product_id) {
-            if (count($recommended_products) >= $count_to_recommend) {
-                return $recommended_products;
-            }
-            // create graph
-            $this->createGraph($product_id);
 
-        }
+        // create graph
+        $graph = $this->createGraph($product_ids);
 
         // apply breadth first search
-        $this->breadthFirstSearch([]);
+        $recommended = $this->breadthFirstSearch($graph, $product_ids);
 
-        return $recommended_products;
+        return $recommended;
 
     }
 
-    private function breadthFirstSearch($graph): array
+    private function breadthFirstSearch($graph, $bought_products_ids): array
     {
+        $recommended = [];
+
         if (count($graph) == 0) {
-            echo 'graph is empty';
             return [];
         }
 
@@ -53,7 +50,11 @@ class RecommendService
         while (!$search_queue->isEmpty()) {
             $peek_value = $search_queue->pop();
 
-            echo '***************** $peek_value =' . $peek_value . ' ***********<br>';
+            $peek_is_bought_already = array_search($peek_value, $bought_products_ids);
+
+            if ($peek_is_bought_already === false) {
+                array_push($recommended, $peek_value);
+            }
 
             // enqueue the node that got dequeued neighbors
             foreach ($graph[$peek_value] as $node) {
@@ -67,33 +68,46 @@ class RecommendService
             }
         }
 
-        return [];
+        return $recommended;
     }
 
-    private function createGraph($product_id)
+    private function createGraph($product_ids)
     {
-        // echo '$product_id=' . $product_id;
+        $graph = [];
 
-        $this->productsBoughtWith($product_id);
+        // for the product ids
+        foreach ($product_ids as $product_id) {
+            // create graph
+            $graph[$product_id] = $this->productsBoughtWith($product_id);
+        }
 
+        // for the bought with product ids
+        foreach ($graph as $key => $values) {
+            foreach ($values as $value) {
+
+                if (!array_key_exists($value, $graph)) {
+                    $graph[$value] = $this->productsBoughtWith($value);
+                }
+            }
+        }
+        return $graph;
     }
 
     private function productsBoughtWith($product_id)
     {
-        $orders_with_product_id = DB::select(
-            DB::raw('SELECT bought_products.product_id AS original_product_id, bought_with_products.product_id AS
-    bought_with,
-    count(*) as times_bought_together
-    FROM order_products AS bought_products
-    INNER JOIN order_products AS bought_with_products
-    ON bought_products.order_id = bought_with_products.order_id
-    AND bought_products.product_id != bought_with_products.product_id
-    where bought_products.product_id=?
-    GROUP BY bought_products.product_id
-    Order By times_bought_together DESC;'),
+        $bought_with_ids = [];
+
+        $results = DB::select(
+            DB::raw('select distinct t1.product_id as bought, t2.product_id as bought_with
+from order_products  as t1 join
+     order_products as  t2
+     on t1.order_id = t2.order_id
+where t1.product_id <> t2.product_id and t1.product_id=?;'),
             [$product_id]);
 
-        dd($orders_with_product_id);
-
+        foreach ($results as $result) {
+            array_push($bought_with_ids, $result->bought_with);
+        }
+        return $bought_with_ids;
     }
 }

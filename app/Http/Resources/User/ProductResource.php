@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\User;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
@@ -15,17 +14,10 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        // $created_at = new Carbon($this->created_at);
-
-        // $updated_at = new Carbon($this->updated_at);
-
-        // return [
-        //     'id' => $this->id,
-        //     'name' => $this->name,
-        //     'price' => $this->price,
-        //     'created_at' => $created_at->toDayDateTimeString(),
-        //     'updated_at' => $updated_at->toDayDateTimeString(),
-        // ];
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'price' => $this->price,
+        ];
     }
 }

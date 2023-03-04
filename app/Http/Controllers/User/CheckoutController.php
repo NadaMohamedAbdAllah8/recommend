@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\User\ProductResource;
 use App\Models\Cart;
+use App\Models\Product;
 use App\Services\CheckoutService;
 use App\Services\RecommendService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -32,7 +34,7 @@ class CheckoutController extends Controller
 
             $product_ids = $recommend_service->recommend($order, config('global.count_to_recommend', 3));
 
-            dd($product_ids);
+            //dd($product_ids);
 
             DB::commit();
 
@@ -40,11 +42,10 @@ class CheckoutController extends Controller
                 'code' => 200,
                 'message' => 'Checked out Successfully!',
                 'validation' => null,
-                'data' => ['order' => new OrderResource($order)],
+                'data' => ['order' => new OrderResource($order),
+                    'recommended' => ProductResource::collection(Product::whereIn('id', $product_ids)->get())],
             ]);
         } catch (\Exception$exception) {
-            echo $exception->getMessage();
-            dd($exception->getTraceAsString());
 
             DB::rollback();
 
