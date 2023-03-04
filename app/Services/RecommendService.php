@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class RecommendService
 {
-    public function recommend(Order $order, int $count_to_recommend): array
+    public function recommend(Order $order): array
     {
         $recommended_products = [];
 
@@ -24,7 +24,6 @@ class RecommendService
         $recommended = $this->breadthFirstSearch($graph, $product_ids);
 
         return $recommended;
-
     }
 
     private function breadthFirstSearch($graph, $bought_products_ids): array

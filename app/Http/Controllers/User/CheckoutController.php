@@ -31,10 +31,7 @@ class CheckoutController extends Controller
 
         try {
             $order = $checkout_service->checkout($cart);
-
-            $product_ids = $recommend_service->recommend($order, config('global.count_to_recommend', 3));
-
-            //dd($product_ids);
+            $product_ids = $recommend_service->recommend($order);
 
             DB::commit();
 
@@ -46,9 +43,7 @@ class CheckoutController extends Controller
                     'recommended' => ProductResource::collection(Product::whereIn('id', $product_ids)->get())],
             ]);
         } catch (\Exception$exception) {
-
             DB::rollback();
-
             return response()->json([
                 'code' => 500,
                 'message' => 'Error!',
