@@ -44,6 +44,7 @@ class CheckoutController extends Controller
             ]);
         } catch (\Exception$exception) {
             DB::rollback();
+
             return response()->json([
                 'code' => 500,
                 'message' => 'Error!',

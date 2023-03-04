@@ -46,7 +46,7 @@ class RecommendService
 
         $added_nodes = [];
 
-        while (!$search_queue->isEmpty()) {
+        while (! $search_queue->isEmpty()) {
             $peek_value = $search_queue->pop();
 
             $peek_is_bought_already = array_search($peek_value, $bought_products_ids);
@@ -63,7 +63,6 @@ class RecommendService
                     $search_queue->push($node);
                     array_push($added_nodes, $node);
                 }
-
             }
         }
 
@@ -83,12 +82,12 @@ class RecommendService
         // for the bought with product ids
         foreach ($graph as $key => $values) {
             foreach ($values as $value) {
-
-                if (!array_key_exists($value, $graph)) {
+                if (! array_key_exists($value, $graph)) {
                     $graph[$value] = $this->productsBoughtWith($value);
                 }
             }
         }
+
         return $graph;
     }
 
@@ -107,6 +106,7 @@ where t1.product_id <> t2.product_id and t1.product_id=?;'),
         foreach ($results as $result) {
             array_push($bought_with_ids, $result->bought_with);
         }
+
         return $bought_with_ids;
     }
 }
