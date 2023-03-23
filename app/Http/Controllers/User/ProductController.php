@@ -21,7 +21,7 @@ class ProductController extends Controller
             'message' => 'Products',
             'validation' => null,
             'data' => [
-                'products' => new ProductResource(Product::select('id', 'name', 'price')->get()),
+                'products' => ProductResource::collection(Product::select('id', 'name', 'price')->get()),
             ],
         ]);
     }
