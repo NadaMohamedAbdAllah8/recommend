@@ -61,7 +61,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'code' => 500,
-                'message' => 'Error!',
+                'message' => 'Error! ' . $e->getMessage(),
                 'validation' => null,
                 'data' => [],
             ]);
