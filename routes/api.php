@@ -29,17 +29,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\Admin'],
             Route::post('logout', 'AuthController@logout')->name('logout');
 
             Route::prefix('products')->group(function () {
-                Route:: as ('Product.')->group(function () {
+                Route:: as ('products.')->group(function () {
                     Route::get('/', 'ProductController@index')->name('index');
                     Route::post('store', 'ProductController@store')->name('store');
-                    Route::post('store', 'ProductController@store')->name('store');
+                    Route::get('show/{id}', 'ProductController@show')->name('show');
                     Route::post('update/{id}', 'ProductController@update')->name('update');
                     Route::post('destroy/{id}', 'ProductController@destroy')->name('destroy');
                 });
             });
-
         });
-
     });
 
 // issue new tokens
