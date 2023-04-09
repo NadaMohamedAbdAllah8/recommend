@@ -2,20 +2,12 @@
 
 namespace App\Actions\Admin\Product;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\Admin\Product\UpdateRequest;
 
 class UpdateAction
 {
-    public function execute(Request $request, $id)
+    public function execute(UpdateRequest $request, $product)
     {
-        $product = Product::findOrFail($id);
-
-        $product->update([
-            'name' => $request->name,
-            'price' => $request->price,
-        ]);
-
-        return $product;
+        $product->update($request->validated());
     }
 }

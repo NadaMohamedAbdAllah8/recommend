@@ -9,9 +9,6 @@ class StoreAction
 {
     public function execute(StoreRequest $request)
     {
-        return Product::create([
-            'name' => $request->name,
-            'price' => $request->price,
-        ]);
+        return Product::create($request->validated());
     }
 }

@@ -25,9 +25,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:191',
-                Rule::unique('products', 'name')
-                    ->ignore($this->id)],
+            'name' => 'required|string|max:191|unique:products,name,' . $this->product->id,
             'price' => 'required|numeric',
         ];
     }
