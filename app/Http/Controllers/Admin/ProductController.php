@@ -42,10 +42,8 @@ class ProductController extends Controller
     public function store(StoreRequest $request, StoreAction $store_action)
     {
         DB::beginTransaction();
-
         try {
             $product = $store_action->execute($request);
-
             DB::commit();
 
             return response()->json([
@@ -74,11 +72,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
         try {
-            $product = Product::findOrFail($id);
-
             return response()->json([
                 'code' => 200,
                 'message' => 'Product',
@@ -104,13 +100,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, UpdateAction $update_action, $id)
+    public function update(UpdateRequest $request, Product $product, UpdateAction $update_action)
     {
         DB::beginTransaction();
-
         try {
-            $product = $update_action->execute($request, $id);
-
+            $update_action->execute($request, $product);
             DB::commit();
 
             return response()->json([
@@ -126,7 +120,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'code' => 500,
-                'message' => 'Error!',
+                'message' => 'Error! ' . $e->getMessage(),
                 'validation' => null,
                 'data' => [],
             ]);
@@ -139,13 +133,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DestroyAction $destroy_action, $id)
+    public function destroy(DestroyAction $destroy_action, Product $product)
     {
         DB::beginTransaction();
-
         try {
-            $destroy_action->execute($id);
-
+            $destroy_action->execute($product);
             DB::commit();
 
             return response()->json([
@@ -159,7 +151,7 @@ class ProductController extends Controller
 
             return response()->json([
                 'code' => 500,
-                'message' => 'Error!',
+                'message' => $e->getMessage(),
                 'validation' => null,
                 'data' => [],
             ]);
