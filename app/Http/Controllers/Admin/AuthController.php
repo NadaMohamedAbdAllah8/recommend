@@ -22,7 +22,7 @@ class AuthController extends Controller
             $admin = Admin::where('email', request()->email)->first();
 
             // do the passwords match?
-            if (! Hash::check(request()->password, $admin->password)) {
+            if (!Hash::check(request()->password, $admin->password)) {
                 // no they don't
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
@@ -30,7 +30,7 @@ class AuthController extends Controller
             // log the admin in (needed for future requests)
             FacadesAuth::login($admin);
 
-            if (! $admin->api_token) {
+            if (!$admin->api_token) {
                 $admin->api_token = Str::random(80);
             }
 
