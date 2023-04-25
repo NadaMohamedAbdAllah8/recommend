@@ -10,11 +10,13 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^9",
         "laravel/sanctum": "^2.15",
+        "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.5",
         "php-ds/php-ds": "^1.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "knuckleswtf/scribe": "^4.19",
         "laravel/pint": "^1.6",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
